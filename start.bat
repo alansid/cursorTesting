@@ -70,13 +70,22 @@ cd ..
 
 REM 啟動前端
 echo.
-echo 🚀 啟動 Angular 前端...
+echo 🚀 準備 Angular 前端...
 cd frontend
 
-REM 檢查是否已安裝依賴
+REM 檢查並安裝前端依賴
 if not exist "node_modules" (
-    echo 安裝前端依賴...
+    echo 📦 node_modules 不存在，正在安裝前端依賴...
     npm install
+    if %errorlevel% equ 0 (
+        echo ✅ 前端依賴安裝成功
+    ) else (
+        echo ❌ 前端依賴安裝失敗
+        pause
+        exit /b 1
+    )
+) else (
+    echo ✅ node_modules 已存在，跳過依賴安裝
 )
 
 echo 正在啟動前端開發服務器...

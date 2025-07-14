@@ -74,13 +74,22 @@ cd ..
 
 # 啟動前端
 echo ""
-echo "🚀 啟動 Angular 前端..."
+echo "🚀 準備 Angular 前端..."
 cd frontend
 
-# 檢查是否已安裝依賴
+# 檢查並安裝前端依賴
 if [ ! -d "node_modules" ]; then
-    echo "安裝前端依賴..."
+    echo "📦 node_modules 不存在，正在安裝前端依賴..."
     npm install
+    if [ $? -eq 0 ]; then
+        echo "✅ 前端依賴安裝成功"
+    else
+        echo "❌ 前端依賴安裝失敗"
+        kill $BACKEND_PID 2>/dev/null
+        exit 1
+    fi
+else
+    echo "✅ node_modules 已存在，跳過依賴安裝"
 fi
 
 echo "正在啟動前端開發服務器..."
